@@ -24,11 +24,11 @@ The library API will exist in more than one implementation (a Java one, [bibliot
 
 | File | What it is |
 |------|------------|
-| [`openapi.yaml`](openapi.yaml) | The contract: 26 operations, the schemas and the error codes |
+| [`openapi.yaml`](openapi.yaml) | The contract: 30 operations, the schemas, the roles and the error codes |
 | [`CHANGELOG.md`](CHANGELOG.md) | What changed in each version of the contract |
 | [`redocly.yaml`](redocly.yaml) | The rules the contract is linted with |
 
-The contract covers books, copies, members, loans, renewals, returns and fines. Routes are in Spanish (`/api/v1/prestamos`), as the domain is; the text of the contract is in English.
+The contract covers signing in (bearer token, two roles), books, copies, members, loans, renewals, returns, fines, and what a member can see about themselves. Routes are in Spanish (`/api/v1/prestamos`), as the domain is; the text of the contract is in English.
 
 ## Read it
 
@@ -62,7 +62,8 @@ Every change to `openapi.yaml` needs a new version in `info.version` and an entr
 
 | Version | Implemented by |
 |---------|----------------|
-| 0.1.1 | biblioteca-java (a test checks the API against a pinned copy of this file) |
+| 0.2.0 | none yet: the API and the panel adopt it next |
+| 0.1.1 | biblioteca-java 0.2.0 and biblioteca-web 0.1.1 (each checks itself against a pinned copy) |
 | 0.1.0 | none: its success answers declared `*/*`, fixed in 0.1.1 |
 
 ## License
