@@ -62,7 +62,8 @@ Every change to `openapi.yaml` needs a new version in `info.version` and an entr
 
 | Version | Implemented by |
 |---------|----------------|
-| 0.1.0 | biblioteca-java (generated the first draft; the test that checks the API against this file is the next step) |
+| 0.1.1 | biblioteca-java (a test checks the API against a pinned copy of this file) |
+| 0.1.0 | none: its success answers declared `*/*`, fixed in 0.1.1 |
 
 ## License
 

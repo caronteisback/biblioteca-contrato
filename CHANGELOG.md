@@ -2,6 +2,12 @@
 
 Every change to the contract is listed here, newest first. The version is the `info.version` of [`openapi.yaml`](openapi.yaml) and follows the rules in the [README](README.md#versioning).
 
+## [0.1.1] - 2026-10-21
+
+### Fixed
+
+- The successful answers declared the media type `*/*`; they now declare `application/json`, which is what the API writes. A client generator or a validator could not tell what the body was before. No field, operation or code changed.
+
 ## [0.1.0] - 2026-10-21
 
 First version of the contract. It describes the API exactly as `biblioteca-java` 0.1.0 behaves.
