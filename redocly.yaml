@@ -1,0 +1,7 @@
+extends:
+  - recommended
+
+rules:
+  # The only server listed is the local development one, on purpose: this contract
+  # describes the API, not where it is deployed.
+  no-server-example.com: off

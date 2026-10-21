@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint the contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      # The version is pinned so a new Redocly release cannot break the build by itself.
+      - name: Lint openapi.yaml
+        run: npx --yes @redocly/cli@2.64.1 lint openapi.yaml
