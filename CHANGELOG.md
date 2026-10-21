@@ -2,6 +2,12 @@
 
 Every change to the contract is listed here, newest first. The version is the `info.version` of [`openapi.yaml`](openapi.yaml) and follows the rules in the [README](README.md#versioning).
 
+## [0.2.1] - 2026-10-21
+
+### Fixed
+
+- The file repeated some definitions (the roles of an operation, a few parameters) as YAML aliases (`&a1`, `*a1`). They are valid YAML but some tools, such as the Jackson YAML reader, do not follow them and saw operations without roles. Every definition is now written in full. No operation, field, role or code changed.
+
 ## [0.2.0] - 2026-10-21
 
 **Breaking:** every operation but `login` now needs a bearer token, so a client written for 0.1.x gets `401` until it signs in. Nothing else about the existing operations changed.

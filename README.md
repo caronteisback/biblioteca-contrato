@@ -62,7 +62,7 @@ Every change to `openapi.yaml` needs a new version in `info.version` and an entr
 
 | Version | Implemented by |
 |---------|----------------|
-| 0.2.0 | none yet: the API and the panel adopt it next |
+| 0.2.1 | none yet: the API and the panel adopt it next (0.2.0 had the same content, with YAML aliases) |
 | 0.1.1 | biblioteca-java 0.2.0 and biblioteca-web 0.1.1 (each checks itself against a pinned copy) |
 | 0.1.0 | none: its success answers declared `*/*`, fixed in 0.1.1 |
 

@@ -15,7 +15,7 @@ info:
     name: MIT
     url: https://opensource.org/license/mit
   title: Biblioteca API
-  version: 0.2.0
+  version: 0.2.1
 servers:
 - description: Local development
   url: http://localhost:8080
@@ -176,9 +176,9 @@ paths:
       summary: Delete a copy
       tags:
       - Copies
-      security: &a1
-        - bearerAuth:
-          - LIBRARIAN
+      security:
+      - bearerAuth:
+        - LIBRARIAN
     get:
       description: "`disponible` is calculated: the copy is active and has no active loan."
       operationId: getCopy
@@ -244,7 +244,9 @@ paths:
       summary: Get a copy
       tags:
       - Copies
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/ejemplares/{id}/alta:
     post:
       operationId: restoreCopy
@@ -319,7 +321,9 @@ paths:
       summary: Bring a retired copy back
       tags:
       - Copies
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/ejemplares/{id}/baja:
     post:
       description: For a damaged or lost copy. A copy that is on loan cannot be retired. Retiring twice is harmless.
@@ -397,7 +401,9 @@ paths:
       summary: Retire a copy
       tags:
       - Copies
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/libros:
     get:
       description: Paginated and always ordered by id. A sort parameter is ignored.
@@ -465,11 +471,11 @@ paths:
       summary: List books
       tags:
       - Books
-      security: &a2
-        - bearerAuth:
-          - LIBRARIAN
-        - bearerAuth:
-          - MEMBER
+      security:
+      - bearerAuth:
+        - LIBRARIAN
+      - bearerAuth:
+        - MEMBER
     post:
       description: The ISBN may be written with hyphens or spaces; it is stored as 10 or 13 characters (a 10-digit ISBN may end in X).
       operationId: createBook
@@ -548,7 +554,9 @@ paths:
       summary: Create a book
       tags:
       - Books
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/libros/{id}:
     delete:
       description: Only a book without copies can be deleted.
@@ -620,7 +628,9 @@ paths:
       summary: Delete a book
       tags:
       - Books
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
     get:
       operationId: getBook
       parameters:
@@ -676,7 +686,11 @@ paths:
       summary: Get a book
       tags:
       - Books
-      security: *a2
+      security:
+      - bearerAuth:
+        - LIBRARIAN
+      - bearerAuth:
+        - MEMBER
     put:
       operationId: updateBook
       parameters:
@@ -765,7 +779,9 @@ paths:
       summary: Replace the data of a book
       tags:
       - Books
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/libros/{libroId}/ejemplares:
     get:
       description: Paginated and always ordered by id.
@@ -842,7 +858,11 @@ paths:
       summary: List the copies of a book
       tags:
       - Copies
-      security: *a2
+      security:
+      - bearerAuth:
+        - LIBRARIAN
+      - bearerAuth:
+        - MEMBER
     post:
       operationId: createCopy
       parameters:
@@ -936,7 +956,9 @@ paths:
       summary: Add a copy to a book
       tags:
       - Copies
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/me:
     get:
       description: The signed-in user. For a member it carries the member data, with the score and the alerts calculated now.
@@ -966,7 +988,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
           description: "Error. Possible codes: `INTERNAL_ERROR`."
-      security: *a2
+      security:
+      - bearerAuth:
+        - LIBRARIAN
+      - bearerAuth:
+        - MEMBER
       summary: Get the signed-in user
       tags:
       - Account
@@ -975,8 +1001,7 @@ paths:
       description: Only the fines of the signed-in member, paginated and ordered by id. A librarian has no fines of their own.
       operationId: listMyFines
       parameters:
-      - &a4
-        description: Only the fines in this status.
+      - description: Only the fines in this status.
         in: query
         name: estado
         required: false
@@ -985,8 +1010,7 @@ paths:
           enum:
           - PENDING
           - PAID
-      - &a5
-        description: Page number, starting at 0.
+      - description: Page number, starting at 0.
         in: query
         name: page
         required: false
@@ -995,8 +1019,7 @@ paths:
           format: int32
           default: 0
           minimum: 0
-      - &a6
-        description: Page size, from 1 to 100.
+      - description: Page size, from 1 to 100.
         in: query
         name: size
         required: false
@@ -1049,9 +1072,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
           description: "Error. Possible codes: `INTERNAL_ERROR`."
-      security: &a3
-        - bearerAuth:
-          - MEMBER
+      security:
+      - bearerAuth:
+        - MEMBER
       summary: List my fines
       tags:
       - Account
@@ -1060,15 +1083,13 @@ paths:
       description: Only the loans of the signed-in member, paginated and ordered by id. A librarian has no loans of their own.
       operationId: listMyLoans
       parameters:
-      - &a7
-        description: "`true` lists the loans not yet returned, `false` the returned ones; leave it out for all."
+      - description: "`true` lists the loans not yet returned, `false` the returned ones; leave it out for all."
         in: query
         name: activo
         required: false
         schema:
           type: boolean
-      - &a8
-        description: Page number, starting at 0.
+      - description: Page number, starting at 0.
         in: query
         name: page
         required: false
@@ -1077,8 +1098,7 @@ paths:
           format: int32
           default: 0
           minimum: 0
-      - &a9
-        description: Page size, from 1 to 100.
+      - description: Page size, from 1 to 100.
         in: query
         name: size
         required: false
@@ -1131,7 +1151,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
           description: "Error. Possible codes: `INTERNAL_ERROR`."
-      security: *a3
+      security:
+      - bearerAuth:
+        - MEMBER
       summary: List my loans
       tags:
       - Account
@@ -1147,9 +1169,34 @@ paths:
         schema:
           type: integer
           format: int64
-      - *a4
-      - *a5
-      - *a6
+      - description: Only the fines in this status.
+        in: query
+        name: estado
+        required: false
+        schema:
+          type: string
+          enum:
+          - PENDING
+          - PAID
+      - description: Page number, starting at 0.
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+          minimum: 0
+      - description: Page size, from 1 to 100.
+        in: query
+        name: size
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+          maximum: 100
+          minimum: 1
       responses:
         "200":
           content:
@@ -1196,7 +1243,9 @@ paths:
       summary: List fines
       tags:
       - Fines
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/multas/{id}:
     get:
       operationId: getFine
@@ -1262,7 +1311,9 @@ paths:
       summary: Get a fine
       tags:
       - Fines
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/multas/{id}/pago:
     post:
       description: "Pays the whole amount: there is no payment gateway and no partial payment. Paying unblocks new loans but does not give score points back."
@@ -1340,7 +1391,9 @@ paths:
       summary: Pay a fine
       tags:
       - Fines
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/prestamos:
     get:
       description: Paginated and always ordered by id.
@@ -1353,9 +1406,31 @@ paths:
         schema:
           type: integer
           format: int64
-      - *a7
-      - *a8
-      - *a9
+      - description: "`true` lists the loans not yet returned, `false` the returned ones; leave it out for all."
+        in: query
+        name: activo
+        required: false
+        schema:
+          type: boolean
+      - description: Page number, starting at 0.
+        in: query
+        name: page
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+          minimum: 0
+      - description: Page size, from 1 to 100.
+        in: query
+        name: size
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+          maximum: 100
+          minimum: 1
       responses:
         "200":
           content:
@@ -1402,7 +1477,9 @@ paths:
       summary: List loans
       tags:
       - Loans
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
     post:
       description: "Eight checks run in a fixed order and the first that fails decides the error: member and copy exist, member active, copy active, copy not on loan, no overdue loan, no pending fine, score at least the minimum, fewer than the maximum active loans. Nothing is written if one fails. The loan date is today and the due date is 14 days later, both set by the server."
       operationId: createLoan
@@ -1513,7 +1590,9 @@ paths:
       summary: Lend a copy to a member
       tags:
       - Loans
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/prestamos/{id}:
     get:
       description: Includes the days of delay as of today, the alerts, and the fine when the loan was returned late.
@@ -1580,7 +1659,9 @@ paths:
       summary: Get a loan
       tags:
       - Loans
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/prestamos/{id}/devolucion:
     post:
       description: Always accepted for an active loan, even if the member or the copy were deactivated meanwhile. A return after the due date creates a fine of one sol per day late; returning on the due date is on time.
@@ -1658,7 +1739,9 @@ paths:
       summary: Return a loan
       tags:
       - Loans
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/prestamos/{id}/renovacion:
     post:
       description: Adds one term to the current due date (not to today), up to the maximum number of renewals. It never creates a new loan. A fine or a low score do not block a renewal.
@@ -1749,7 +1832,9 @@ paths:
       summary: Renew a loan
       tags:
       - Loans
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/socios:
     get:
       description: "Paginated and always ordered by id. A row carries no score: calculating it needs the whole loan history, so ask for one member to get it."
@@ -1826,7 +1911,9 @@ paths:
       summary: List members
       tags:
       - Members
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
     post:
       description: The registration date is today, set by the server. The answer carries score 100 and no alerts.
       operationId: createMember
@@ -1905,7 +1992,9 @@ paths:
       summary: Register a member
       tags:
       - Members
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/socios/{id}:
     delete:
       description: A member that appears in any loan is never deleted, only deactivated.
@@ -1979,7 +2068,9 @@ paths:
       summary: Delete a member
       tags:
       - Members
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
     get:
       description: The score and the alerts are calculated now from the loan history and are never stored.
       operationId: getMember
@@ -2045,7 +2136,9 @@ paths:
       summary: Get a member with score and alerts
       tags:
       - Members
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
     put:
       operationId: updateMember
       parameters:
@@ -2134,7 +2227,9 @@ paths:
       summary: Replace the name and the email of a member
       tags:
       - Members
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/socios/{id}/desactivar:
     post:
       description: A member with active loans cannot be deactivated. An inactive member cannot borrow or renew, but can still return.
@@ -2212,7 +2307,9 @@ paths:
       summary: Deactivate a member
       tags:
       - Members
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
   /api/v1/socios/{id}/reactivar:
     post:
       operationId: reactivateMember
@@ -2287,7 +2384,9 @@ paths:
       summary: Reactivate a member
       tags:
       - Members
-      security: *a1
+      security:
+      - bearerAuth:
+        - LIBRARIAN
 components:
   examples:
     BOOK_HAS_COPIES:
