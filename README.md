@@ -24,7 +24,7 @@ The library API will exist in more than one implementation (a Java one, [bibliot
 
 | File | What it is |
 |------|------------|
-| [`openapi.yaml`](openapi.yaml) | The contract: 30 operations, the schemas, the roles and the error codes |
+| [`openapi.yaml`](openapi.yaml) | The contract: 31 operations, the schemas, the roles and the error codes |
 | [`CHANGELOG.md`](CHANGELOG.md) | What changed in each version of the contract |
 | [`redocly.yaml`](redocly.yaml) | The rules the contract is linted with |
 

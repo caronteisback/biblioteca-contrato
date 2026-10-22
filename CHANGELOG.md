@@ -2,6 +2,14 @@
 
 Every change to the contract is listed here, newest first. The version is the `info.version` of [`openapi.yaml`](openapi.yaml) and follows the rules in the [README](README.md#versioning).
 
+## [0.4.0] - 2026-10-22
+
+Adds one operation; nothing that exists changed, so a client written for 0.3.x keeps working.
+
+### Added
+
+- **`GET /api/v1/panel`** (`getDashboard`, librarians only): the figures for the home of the librarian, all as of today and calculated now: active, overdue and soon-to-be-due loans (`diasPorVencer` says how soon: 7 days), pending fines with their total and how many members have one, loans started in each of the last 6 weeks, the 5 most borrowed books of the last 90 days and the 5 loans that need attention most. Schema `PanelResponse` and the ones it uses; 31 operations in total.
+
 ## [0.3.0] - 2026-10-22
 
 Adds fields to answers; no request, operation or code changed, so a client written for 0.2.x keeps working.
