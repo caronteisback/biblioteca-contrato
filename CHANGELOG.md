@@ -2,6 +2,15 @@
 
 Every change to the contract is listed here, newest first. The version is the `info.version` of [`openapi.yaml`](openapi.yaml) and follows the rules in the [README](README.md#versioning).
 
+## [0.3.0] - 2026-10-22
+
+Adds fields to answers; no request, operation or code changed, so a client written for 0.2.x keeps working.
+
+### Added
+
+- **`reglas` in `GET /api/v1/me`** (schema `ReglasDePrestamo`): the lending rules the API applies (`maxPrestamosActivos`, `puntajeMinimo`, `maxRenovaciones`, `diasPlazo`). A screen can show a member how close they are to a limit without copying the numbers, which would drift from the API's configuration.
+- **`tituloLibro` and `codigoEjemplar` in every loan** (`PrestamoResponse`): the title of the book and the code of the copy, so a loan can be named without a second call.
+
 ## [0.2.1] - 2026-10-21
 
 ### Fixed
